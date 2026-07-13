@@ -3,139 +3,316 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Åtgärdstavla 2026-07-13</title>
+<title>Åtgärdstavla</title>
 <style>
   :root { color-scheme: light; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, "Segoe UI", Roboto, sans-serif; background: #faf9f7; color: #2d2a26; padding: 20px; max-width: 860px; margin: 0 auto; }
-  h1 { font-size: 1.5rem; margin-bottom: 2px; }
-  .gen { color: #96907f; font-size: 0.8rem; margin-bottom: 20px; }
-  h2 { font-size: 1.1rem; margin: 24px 0 10px; }
-  .card { background: #fff; border: 1px solid #e8e4dd; border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; position: relative; }
-  .card h3 { font-size: 0.95rem; margin-bottom: 4px; padding-right: 60px; }
-  .card p { font-size: 0.85rem; color: #57524a; margin-bottom: 6px; }
-  .meta { font-size: 0.78rem; color: #96907f; }
-  .tag { display: inline-block; font-size: 0.72rem; background: #f0ede7; color: #57524a; border-radius: 6px; padding: 2px 8px; margin-right: 6px; }
-  .tag.done { background: #e6f2d9; color: #4a7028; }
-  .links a { font-size: 0.8rem; color: #2f6fb3; text-decoration: none; margin-right: 12px; }
-  .links a:hover { text-decoration: underline; }
-  .hide-btn { position: absolute; top: 12px; right: 12px; font-size: 0.72rem; background: none; border: 1px solid #e8e4dd; border-radius: 6px; padding: 3px 8px; color: #96907f; cursor: pointer; }
-  .hide-btn:hover { background: #f5f2ec; }
-  #show-hidden { font-size: 0.8rem; background: #fff; border: 1px solid #e8e4dd; border-radius: 8px; padding: 6px 12px; cursor: pointer; color: #57524a; margin-bottom: 8px; }
-  .empty { color: #96907f; font-style: italic; font-size: 0.85rem; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #f6f5f2; color: #1a1a1a; padding: 20px; font-size: 14px; max-width: 780px; margin: 0 auto;
+  }
+  h1 { font-size: 19px; margin-bottom: 2px; }
+  .sub { color: #6b6b6b; font-size: 12.5px; margin-bottom: 4px; }
+  .syncbar { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #8a8a8a; margin-bottom: 18px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #c9c5be; }
+  .dot.on { background: #4caf50; }
+  .dot.err { background: #d9634e; }
+  .syncbar button { font-size: 11.5px; padding: 3px 9px; }
+  .section-title {
+    font-size: 12px; text-transform: uppercase; letter-spacing: .06em;
+    color: #8a8a8a; margin: 22px 0 8px; display: flex; align-items: center; gap: 8px;
+  }
+  .section-title .count { background: #e8e6e1; border-radius: 10px; padding: 1px 8px; font-size: 11px; color: #555; }
+  .section-title.clickable { cursor: pointer; user-select: none; }
+  .section-title.clickable:hover { color: #555; }
+  .section-title .chev { font-size: 10px; }
+  .section-title .toggle-label { font-weight: 400; text-transform: none; letter-spacing: 0; }
+  .card { background: #fff; border: 1px solid #e5e2dc; border-radius: 10px; padding: 13px 15px; margin-bottom: 9px; }
+  .card.done { opacity: .62; }
+  .card .top { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+  .card h3 { font-size: 14.5px; font-weight: 600; }
+  .card.done h3 { text-decoration: line-through; }
+  .badges { display: flex; gap: 5px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+  .badge { font-size: 10.5px; padding: 2px 8px; border-radius: 9px; white-space: nowrap; font-weight: 500; }
+  .b-mail  { background: #e3edfb; color: #1c4e9e; }
+  .b-msg   { background: #e8f5e5; color: #2c6b2f; }
+  .b-rem   { background: #f5edda; color: #7a5d17; }
+  .b-claude { background: #ede7f8; color: #5b3fa6; }
+  .b-prep  { background: #ddf0f4; color: #1c6b7d; }
+  .card.claude { border-left: 3px solid #8a6fd1; }
+  .context { color: #555; margin-top: 5px; line-height: 1.45; }
+  .meta { color: #9a9691; font-size: 11.5px; margin-top: 6px; }
+  .actions { display: flex; gap: 7px; margin-top: 11px; flex-wrap: wrap; }
+  button, .btn {
+    font: inherit; font-size: 12.5px; font-weight: 500; cursor: pointer;
+    border-radius: 7px; padding: 6px 12px; border: 1px solid #d8d4cd;
+    background: #fff; color: #333; text-decoration: none; display: inline-block;
+  }
+  button:hover, .btn:hover { background: #f2f0ec; }
+  .primary { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+  .primary:hover { background: #383838; }
+  .ghost { border-color: transparent; color: #777; }
+  .empty { background: #fff; border: 1px dashed #d8d4cd; border-radius: 10px; padding: 26px; text-align: center; color: #8a8a8a; }
+  .overlay { position: fixed; inset: 0; background: rgba(20,20,20,.45); display: none; align-items: center; justify-content: center; padding: 24px; z-index: 50; }
+  .overlay.open { display: flex; }
+  .modal { background: #fff; border-radius: 12px; max-width: 560px; width: 100%; max-height: 82vh; display: flex; flex-direction: column; overflow: hidden; }
+  .modal header { padding: 15px 18px 10px; border-bottom: 1px solid #eee; }
+  .modal header h2 { font-size: 15.5px; }
+  .modal .body { padding: 15px 18px; overflow-y: auto; line-height: 1.55; font-size: 13.5px; }
+  .modal .body input { width: 100%; font: inherit; padding: 8px 10px; border: 1px solid #d8d4cd; border-radius: 7px; margin-top: 8px; }
+  .modal .body p { margin-bottom: 8px; color: #555; }
+  .modal footer { padding: 11px 18px; border-top: 1px solid #eee; display: flex; gap: 8px; justify-content: flex-end; }
+  .toast {
+    position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%);
+    background: #1a1a1a; color: #fff; padding: 8px 16px; border-radius: 8px;
+    font-size: 12.5px; opacity: 0; transition: opacity .25s; pointer-events: none; z-index: 60;
+  }
+  .toast.show { opacity: 1; }
+  footer.page { color: #9a9691; font-size: 11.5px; margin-top: 26px; border-top: 1px solid #e5e2dc; padding-top: 10px; }
 </style>
 </head>
 <body>
-<h1>Åtgärdstavla</h1>
-<p class="gen">Genererad 2026-07-13 07:10 · källor: Pocket, Gmail-utkast, Google Kalender, Google Drive</p>
-<button id="show-hidden" onclick="toggleHidden()">Visa gömda</button>
+  <h1>Åtgärdstavla</h1>
+  <div class="sub" id="sub"></div>
+  <div class="syncbar">
+    <span class="dot" id="syncDot"></span><span id="syncTxt">Synk: av (endast denna enhet)</span>
+    <button onclick="openSettings()">Inställningar</button>
+  </div>
+  <div id="app"></div>
+  <footer class="page">Snapshot genererad 2026-07-13 07:10 av morgonrutinen · data uppdateras vid nästa körning. Lösta markeringar synkas via state.json i repot.</footer>
 
-<h2>Mötesförberedelser (7 dagar)</h2>
-<div class="card" data-key="meeting-fs-16-7">
-  <button class="hide-btn" onclick="hideCard(this)">Göm</button>
-  <h3>Förberedelse inför: FS-möte (MUF)</h3>
-  <p class="meta">Torsdag 16 juli 2026 (heldag)</p>
-  <p>Inget mötesunderlag framtaget ännu. Skicka underlaget till Claude så görs ett beslutsdokument.</p>
-  <div class="links"><a href="https://www.google.com/calendar/event?eid=MmQ0Y3R0Mmw4azM0Yjlnb2UwNXJsMnNsYmcgZG91Z2xhc3Rob3I5N0Bt&ctz=Europe/Stockholm" target="_blank">Öppna i kalendern</a></div>
-</div>
-
-<h2>Åtgärdspunkter</h2>
-
-<div class="card" data-key="ai-github-hemsida">
-  <button class="hide-btn" onclick="hideCard(this)">Göm</button>
-  <h3>Testa att publicera åtgärdshemsidan via GitHub med Claude</h3>
-  <p>Du vill göra åtgärdshemsidan till en riktig hemsida (GitHub Pages) i stället för bara en lokal fil.</p>
-  <p class="meta"><span class="tag">Påminnelse</span>Inspelad 13/7 00:53</p>
-</div>
-
-<div class="card" data-key="ai-julia-skargard">
-  <button class="hide-btn" onclick="hideCard(this)">Göm</button>
-  <h3>Rekommendera Stockholms skärgård och restauranger till Julia</h3>
-  <p>Julia (från Australien) och hennes vänner behöver tips på aktiviteter i Stockholm.</p>
-  <p class="meta"><span class="tag">Påminnelse</span>Inspelad 11/7</p>
-</div>
-
-<div class="card" data-key="ai-axel-kontakt">
-  <button class="hide-btn" onclick="hideCard(this)">Göm</button>
-  <h3>Kontakta/ring Axel Adolfsson om valfilmen</h3>
-  <p>Följ upp valfilmen och de politiska budskapen med Axel. Manus-utkastet ligger klart i Gmail.</p>
-  <p class="meta"><span class="tag">Samtal/uppföljning</span><span class="tag done">Utkast finns ✓</span>Inspelad 9/7 &amp; 11/7</p>
-  <div class="links"><a href="https://mail.google.com/mail/u/0/#drafts/19f4bba18afd5379" target="_blank">Öppna Gmail-utkastet</a></div>
-</div>
-
-<div class="card" data-key="ai-manus-axel">
-  <button class="hide-btn" onclick="hideCard(this)">Göm</button>
-  <h3>Skicka voice over-manuset till Axel Adolfsson</h3>
-  <p>Manuset till MUF:s valfilm 2026 ("Ett rättvist Sverige") är skrivet och ligger som utkast till Axel.Adolfsson@moderaterna.se — granska och skicka.</p>
-  <p class="meta"><span class="tag">Mejl</span><span class="tag done">Hanterad av Claude ✓</span>Inspelad 10/7</p>
-  <div class="links"><a href="https://mail.google.com/mail/u/0/#drafts/19f4bba18afd5379" target="_blank">Öppna Gmail-utkastet</a></div>
-</div>
-
-<div class="card" data-key="ai-redigera-valfilm">
-  <button class="hide-btn" onclick="hideCard(this)">Göm</button>
-  <h3>Redigera valfilmen/videon</h3>
-  <p>Valfilm står i kalendern 15–16/7 — bra tillfälle att klippa filmen.</p>
-  <p class="meta"><span class="tag">Uppgift</span>Inspelad 10/7</p>
-  <div class="links"><a href="https://www.google.com/calendar/event?eid=aWVyZTN2b241aTNzYXVqb3Bua2F1anBmcmMgZG91Z2xhc3Rob3I5N0Bt&ctz=Europe/Stockholm" target="_blank">Valfilm i kalendern (15/7)</a></div>
-</div>
-
-<div class="card" data-key="ai-paris">
-  <button class="hide-btn" onclick="hideCard(this)">Göm</button>
-  <h3>Bjud in Freaky och Jonas till Paris</h3>
-  <p>Skicka meddelande och kolla om de vill följa med till Paris framöver.</p>
-  <p class="meta"><span class="tag">Meddelande</span>Inspelad 11/7</p>
-</div>
-
-<div class="card" data-key="ai-nadin-svensexa">
-  <button class="hide-btn" onclick="hideCard(this)">Göm</button>
-  <h3>Uppdatera Nadins svensexa-grupp</h3>
-  <p>Meddela gruppen: brunchen gick inte att lösa, men kvällsklubbaktiviteten löser sig troligen.</p>
-  <p class="meta"><span class="tag">Meddelande</span>Inspelad 10/7</p>
-</div>
-
-<div class="card" data-key="ai-bergklubb">
-  <button class="hide-btn" onclick="hideCard(this)">Göm</button>
-  <h3>Kolla upp bergklubb för svensexan 25 juli</h3>
-  <p>Hitta lämplig klubb till svensexan den 25 juli (hör ihop med kvällsaktiviteten för Nadins svensexa).</p>
-  <p class="meta"><span class="tag">Ärende</span>Inspelad 9/7</p>
-</div>
-
-<div class="card" data-key="ai-bjurvik">
-  <button class="hide-btn" onclick="hideCard(this)">Göm</button>
-  <h3>Skriv om Bjurvik-besöket</h3>
-  <p>Informera om besöket i Bjurvik — ligger i kalendern fredag–söndag 17–19/7.</p>
-  <p class="meta"><span class="tag">Meddelande</span><span class="tag done">Kalenderhändelse finns ✓</span>Inspelad 10/7</p>
-  <div class="links"><a href="https://www.google.com/calendar/event?eid=a2lvbWVtZWJzbm9jcTQxYm9ldGhvMW00MDggZG91Z2xhc3Rob3I5N0Bt&ctz=Europe/Stockholm" target="_blank">Bjurvik i kalendern (17/7)</a></div>
-</div>
+  <div class="overlay" id="overlay">
+    <div class="modal">
+      <header><h2 id="mTitle"></h2></header>
+      <div class="body" id="mBody"></div>
+      <footer id="mFooter"></footer>
+    </div>
+  </div>
+  <div class="toast" id="toast"></div>
 
 <script>
-const KEY = "atgardstavla-hidden";
-let showHidden = false;
-function getHidden() { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch(e) { return []; } }
-function setHidden(list) { localStorage.setItem(KEY, JSON.stringify(list)); }
-function hideCard(btn) {
-  const card = btn.closest(".card");
-  const list = getHidden();
-  if (!list.includes(card.dataset.key)) { list.push(card.dataset.key); setHidden(list); }
-  apply();
+// ---- Inbäddad data (skrivs om av morgonrutinen) ----
+const GENERATED = '2026-07-13 07:10';
+const PREPS = [
+  { id: 'prep-2d4ctt2l8k34b9goe05rl2slbg', title: 'FS-möte (MUF)', date: 'Torsdag 16 juli 2026 (heldag)',
+    underlag: null, cal: 'https://www.google.com/calendar/event?eid=MmQ0Y3R0Mmw4azM0Yjlnb2UwNXJsMnNsYmcgZG91Z2xhc3Rob3I5N0Bt&ctz=Europe/Stockholm' }
+];
+const ITEMS = [
+  { id: '8476b2d1-9e30-482f-8d43-5d70066fa73e', type: 'create_reminder', label: 'Testa att publicera åtgärdshemsidan via GitHub med Claude',
+    context: 'Göra åtgärdstavlan till en riktig hemsida via GitHub Pages.', rec: 'Testa åtgärdshemsida med GitHub', date: '13 juli 00:53' },
+  { id: 'f447f9b2-1443-41af-bd8d-a95bd4f17f6e', type: 'create_reminder', label: 'Rekommendera Stockholms skärgård och restauranger till Julia',
+    context: 'Julia (från Australien) och hennes vänner behöver tips på aktiviteter i Stockholm.', rec: 'Träff med Julia från Australien', date: '11 juli' },
+  { id: '1e6d695b-ad35-4f5d-b063-99a8517b3169', type: 'create_reminder', label: 'Kontakta Axel Adolfsson om valfilmen',
+    context: 'Följ upp valfilmen och de politiska budskapen med Axel.', rec: 'Oklar prat om Sverige och politik', date: '11 juli',
+    claude: 'Gmail-utkast: "Voice over-manus – MUF:s valfilm 2026"', gmail: 'https://mail.google.com/mail/u/0/#drafts/19f4bba18afd5379' },
+  { id: '0d0fb5b4-08c5-4beb-8ca9-e96eb531de0f', type: 'draft_email', label: 'Skicka manus till Axel Adolfsson',
+    context: 'Det färdiga manuset ska skickas till Axel Adolfsson.', rec: 'Hitta manus för valfilmen', date: '10 juli',
+    claude: 'Gmail-utkast: "Voice over-manus – MUF:s valfilm 2026"', gmail: 'https://mail.google.com/mail/u/0/#drafts/19f4bba18afd5379' },
+  { id: '29de714d-c202-4bc9-a26c-05e15e29bb5d', type: 'create_reminder', label: 'Skapa voice over-manus för valfilm',
+    context: 'Skriv om Muffs kampanjberättelse till voice over-manus.', rec: 'Hitta manus för valfilmen', date: '10 juli',
+    claude: 'Manus skrivet – ligger som Gmail-utkast', gmail: 'https://mail.google.com/mail/u/0/#drafts/19f4bba18afd5379' },
+  { id: '530d919c-2f56-44d3-956a-94d3f434d7f7', type: 'create_reminder', label: 'Redigera valfilm/video',
+    context: 'Valfilm står i kalendern 15–16/7 — bra tillfälle att klippa.', rec: 'Rörigt videosamtal och prat', date: '10 juli',
+    cal: 'https://www.google.com/calendar/event?eid=aWVyZTN2b241aTNzYXVqb3Bua2F1anBmcmMgZG91Z2xhc3Rob3I5N0Bt&ctz=Europe/Stockholm' },
+  { id: '72438679-bdae-48ae-8479-c56e34de2593', type: 'send_message', label: 'Bjud in Freaky och Jonas till Paris',
+    context: 'Kolla om de vill hänga med till Paris framöver.', rec: 'Rörigt videosamtal och prat', date: '10 juli',
+    text: 'Tjena! Tänkte kolla om ni vill hänga med till Paris framöver? Skulle vara grymt kul!' },
+  { id: '8dbfb06f-32b3-46b2-ace4-c06beba47720', type: 'send_message', label: 'Uppdatera Nadins svensexa-grupp',
+    context: 'Brunchen gick inte att lösa; kvällsklubbaktiviteten löser sig troligen.', rec: 'Lunch med Sofia Söderling', date: '10 juli',
+    text: 'Hej! Jag lyckades tyvärr inte lösa brunchen, men jag kommer nog kunna lösa kvällsklubbaktiviteten istället.' },
+  { id: 'ffdc1c22-d4c2-4d41-b3ea-82540ecbff16', type: 'create_reminder', label: 'Lunch med Sofia Söderling',
+    context: 'Var inplanerad 11/7 — bocka av om den blev av.', rec: 'Lunch med Sofia Söderling', date: '10 juli' },
+  { id: '7ec643b4-a76f-4d3e-801d-2e5f8a3068a1', type: 'send_message', label: 'Skriv om Bjurvik-besöket',
+    context: 'Informera om besöket i Bjurvik — i kalendern 17–19/7.', rec: 'Lunch med Sofia Söderling', date: '10 juli',
+    text: 'Hej! Jag skriver angående Bjurovikbesöket nästa helg.',
+    cal: 'https://www.google.com/calendar/event?eid=a2lvbWVtZWJzbm9jcTQxYm9ldGhvMW00MDggZG91Z2xhc3Rob3I5N0Bt&ctz=Europe/Stockholm' },
+  { id: '2120f775-55fb-4dbe-b375-0b021a2a2eba', type: 'create_reminder', label: 'Ring Axel Adolfsson om valfilmen',
+    context: 'Prata igenom valfilmen med Axel.', rec: 'Ringa Axel om valfilmen', date: '9 juli' },
+  { id: '78a3e1c8-b56d-45c2-9aef-9f3a1f5ccccd', type: 'create_reminder', label: 'Kolla upp bergklubb för svensexa 25 juli',
+    context: 'Hitta lämplig klubb till svensexan den 25 juli.', rec: 'Ringa Axel om valfilmen', date: '9 juli' }
+];
+
+// ---- Synk mot GitHub (state.json i detta repo) ----
+const OWNER = 'douglas97-arch', REPO = 'atgardstavla';
+const API = 'https://api.github.com/repos/' + OWNER + '/' + REPO + '/contents/state.json';
+const RAW = 'https://raw.githubusercontent.com/' + OWNER + '/' + REPO + '/main/state.json';
+const TOKEN_KEY = 'atgardstavla-gh-token';
+const LOCAL_KEY = 'atgardstavla-state-local';
+
+let state = {};
+let sha = null;
+let pushing = false, pendingPush = false;
+
+function token() { return localStorage.getItem(TOKEN_KEY) || ''; }
+function esc(s) { return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function toast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2200); }
+
+function setSync(mode, txt) {
+  const d = document.getElementById('syncDot');
+  d.className = 'dot' + (mode === 'on' ? ' on' : mode === 'err' ? ' err' : '');
+  document.getElementById('syncTxt').textContent = txt;
 }
-function toggleHidden() {
-  showHidden = !showHidden;
-  document.getElementById("show-hidden").textContent = showHidden ? "Dölj gömda" : "Visa gömda";
-  apply();
+
+async function fetchRemote() {
+  // Med token: via API (färsk + ger sha). Utan token: raw (kan cachas någon minut).
+  if (token()) {
+    const r = await fetch(API + '?t=' + Date.now(), { headers: { Authorization: 'Bearer ' + token(), Accept: 'application/vnd.github+json' }, cache: 'no-store' });
+    if (r.status === 404) { sha = null; return {}; }
+    if (!r.ok) throw new Error('GitHub API ' + r.status);
+    const j = await r.json();
+    sha = j.sha;
+    return JSON.parse(decodeURIComponent(escape(atob(j.content.replace(/\n/g, '')))) || '{}');
+  }
+  const r = await fetch(RAW + '?t=' + Date.now(), { cache: 'no-store' });
+  if (!r.ok) return {};
+  return await r.json();
 }
-function apply() {
-  const hidden = getHidden();
-  document.querySelectorAll(".card").forEach(c => {
-    const isHidden = hidden.includes(c.dataset.key);
-    c.style.display = (isHidden && !showHidden) ? "none" : "block";
-    c.style.opacity = (isHidden && showHidden) ? 0.5 : 1;
-    const btn = c.querySelector(".hide-btn");
-    if (isHidden && showHidden) { btn.textContent = "Visa"; btn.onclick = () => { setHidden(getHidden().filter(k => k !== c.dataset.key)); apply(); }; }
-    else { btn.textContent = "Göm"; btn.onclick = () => hideCard(btn); }
-  });
+
+async function pushRemote() {
+  if (!token()) return;
+  if (pushing) { pendingPush = true; return; }
+  pushing = true;
+  try {
+    const body = { message: 'Uppdatera åtgärdsstatus från hemsidan', content: btoa(unescape(encodeURIComponent(JSON.stringify(state, null, 2)))) };
+    if (sha) body.sha = sha;
+    let r = await fetch(API, { method: 'PUT', headers: { Authorization: 'Bearer ' + token(), Accept: 'application/vnd.github+json' }, body: JSON.stringify(body) });
+    if (r.status === 409 || r.status === 422) { // sha stale -> hämta om och försök igen
+      const remote = await fetchRemote();
+      state = Object.assign({}, remote, state);
+      body.sha = sha; body.content = btoa(unescape(encodeURIComponent(JSON.stringify(state, null, 2))));
+      r = await fetch(API, { method: 'PUT', headers: { Authorization: 'Bearer ' + token(), Accept: 'application/vnd.github+json' }, body: JSON.stringify(body) });
+    }
+    if (!r.ok) throw new Error('GitHub API ' + r.status);
+    const j = await r.json();
+    sha = j.content && j.content.sha;
+    setSync('on', 'Synk: på — sparad till GitHub');
+  } catch (e) {
+    setSync('err', 'Synkfel: ' + e.message);
+    toast('Kunde inte spara till GitHub');
+  } finally {
+    pushing = false;
+    if (pendingPush) { pendingPush = false; pushRemote(); }
+  }
 }
-apply();
+
+function saveLocal() { localStorage.setItem(LOCAL_KEY, JSON.stringify(state)); }
+
+window.toggleDone = function(id) {
+  if (state[id] && state[id].done) state[id] = { done: false, undoneAt: new Date().toISOString(), source: 'web' };
+  else state[id] = { done: true, doneAt: new Date().toISOString(), source: 'web' };
+  saveLocal(); render(); pushRemote();
+};
+
+window.showText = function(id) {
+  const it = ITEMS.find(x => x.id === id);
+  if (!it || !it.text) return;
+  document.getElementById('mTitle').textContent = it.label;
+  document.getElementById('mBody').textContent = it.text;
+  document.getElementById('mFooter').innerHTML =
+    '<button class="primary" onclick="navigator.clipboard.writeText(document.getElementById(\'mBody\').textContent).then(()=>toast(\'Kopierat\'))">Kopiera</button>' +
+    '<button onclick="closeModal()">Stäng</button>';
+  document.getElementById('overlay').classList.add('open');
+};
+window.closeModal = function() { document.getElementById('overlay').classList.remove('open'); };
+document.getElementById('overlay').addEventListener('click', e => { if (e.target.id === 'overlay') closeModal(); });
+
+window.openSettings = function() {
+  document.getElementById('mTitle').textContent = 'Synk-inställningar';
+  document.getElementById('mBody').innerHTML =
+    '<p>För att "Markera som löst" ska synkas (till andra enheter och till Claude-artifacten) behövs en GitHub-token med behörighet <b>Contents: Read and write</b> för repot <b>' + OWNER + '/' + REPO + '</b>.</p>' +
+    '<p>Skapa en fine-grained token på github.com &rarr; Settings &rarr; Developer settings &rarr; Personal access tokens, och klistra in den här. Den sparas bara i den här webbläsaren.</p>' +
+    '<input type="password" id="tokenInput" placeholder="github_pat_…" value="' + esc(token()) + '">';
+  document.getElementById('mFooter').innerHTML =
+    '<button class="primary" onclick="saveToken()">Spara</button>' +
+    (token() ? '<button onclick="clearToken()">Ta bort token</button>' : '') +
+    '<button onclick="closeModal()">Stäng</button>';
+  document.getElementById('overlay').classList.add('open');
+};
+window.saveToken = function() {
+  const v = document.getElementById('tokenInput').value.trim();
+  if (v) { localStorage.setItem(TOKEN_KEY, v); toast('Token sparad'); closeModal(); init(); }
+};
+window.clearToken = function() { localStorage.removeItem(TOKEN_KEY); setSync('off', 'Synk: av (endast denna enhet)'); closeModal(); };
+
+const TYPE = {
+  draft_email:     { label: 'Mejlutkast', cls: 'b-mail' },
+  send_message:    { label: 'Meddelande', cls: 'b-msg' },
+  create_reminder: { label: 'Påminnelse', cls: 'b-rem' }
+};
+
+function prepCard(p, done) {
+  let btns = done
+    ? '<button class="ghost" onclick="toggleDone(\'' + p.id + '\')">Ångra</button>'
+    : '<button class="primary" onclick="toggleDone(\'' + p.id + '\')">✓ Markera som löst</button>' +
+      (p.cal ? '<a class="btn" href="' + esc(p.cal) + '" target="_blank" rel="noopener">Se i kalendern</a>' : '');
+  return '<div class="card' + (done ? ' done' : '') + '">' +
+    '<div class="top"><h3>Förberedelse inför: ' + esc(p.title) + '</h3><div class="badges"><span class="badge b-prep">Mötesförberedelse</span></div></div>' +
+    '<div class="meta">' + esc(p.date) + (p.underlag ? ' · Underlag: "' + esc(p.underlag) + '"' : ' · Underlag saknas ännu – tas fram av morgonbriefingen') + '</div>' +
+    '<div class="actions">' + btns + '</div></div>';
+}
+
+function card(it, done) {
+  const t = TYPE[it.type] || { label: it.type, cls: 'b-rem' };
+  let btns = '';
+  if (!done) {
+    btns += '<button class="primary" onclick="toggleDone(\'' + it.id + '\')">✓ Markera som löst</button>';
+    if (it.text) btns += '<button onclick="showText(\'' + it.id + '\')">Se text</button>';
+    if (it.gmail) btns += '<a class="btn" href="' + esc(it.gmail) + '" target="_blank" rel="noopener">Öppna i Gmail</a>';
+    if (it.cal) btns += '<a class="btn" href="' + esc(it.cal) + '" target="_blank" rel="noopener">Se i kalendern</a>';
+  } else {
+    btns += '<button class="ghost" onclick="toggleDone(\'' + it.id + '\')">Ångra</button>';
+  }
+  return '<div class="card' + (done ? ' done' : '') + (it.claude && !done ? ' claude' : '') + '">' +
+    '<div class="top"><h3>' + esc(it.label) + '</h3><div class="badges">' +
+      (it.claude ? '<span class="badge b-claude">Hanterad av Claude ✓</span>' : '') +
+      '<span class="badge ' + t.cls + '">' + esc(t.label) + '</span>' +
+    '</div></div>' +
+    (it.context ? '<div class="context">' + esc(it.context) + '</div>' : '') +
+    '<div class="meta">Från inspelning: ' + esc(it.rec || '–') + (it.date ? ' · ' + esc(it.date) : '') + (it.claude ? ' · ' + esc(it.claude) : '') + '</div>' +
+    '<div class="actions">' + btns + '</div></div>';
+}
+
+const COLLAPSE_KEY = 'atgardstavla-done-collapsed';
+function isDoneCollapsed() { const v = localStorage.getItem(COLLAPSE_KEY); return v === null ? true : v === '1'; }
+window.toggleDoneSection = function() { localStorage.setItem(COLLAPSE_KEY, isDoneCollapsed() ? '0' : '1'); render(); };
+
+function isDone(id) { return !!(state[id] && state[id].done); }
+
+function render() {
+  const openP = PREPS.filter(p => !isDone(p.id));
+  const doneP = PREPS.filter(p => isDone(p.id));
+  const open = ITEMS.filter(i => !isDone(i.id));
+  const done = ITEMS.filter(i => isDone(i.id));
+  const openCount = open.length + openP.length, doneCount = done.length + doneP.length;
+  document.getElementById('sub').textContent = openCount + ' att göra · ' + doneCount + ' färdiga · snapshot ' + GENERATED;
+  let html = '<div class="section-title">Att göra <span class="count">' + openCount + '</span></div>';
+  html += openP.map(p => prepCard(p, false)).join('') + open.map(i => card(i, false)).join('');
+  if (!openCount) html += '<div class="empty">Inga öppna åtgärdspunkter – allt är hanterat! 🎉</div>';
+  if (doneCount) {
+    const c = isDoneCollapsed();
+    html += '<div class="section-title clickable" onclick="toggleDoneSection()"><span class="chev">' + (c ? '▶' : '▼') + '</span>' +
+      'Färdiga uppgifter <span class="count">' + doneCount + '</span><span class="toggle-label">' + (c ? 'Ta fram alla' : 'Göm undan alla') + '</span></div>';
+    if (!c) html += doneP.map(p => prepCard(p, true)).join('') + done.map(i => card(i, true)).join('');
+  }
+  document.getElementById('app').innerHTML = html;
+}
+
+async function init() {
+  try { state = JSON.parse(localStorage.getItem(LOCAL_KEY) || '{}'); } catch (e) { state = {}; }
+  render();
+  try {
+    const remote = await fetchRemote();
+    // Fjärrläget är sanningen; lokala poster behålls om fjärran saknar dem.
+    state = Object.assign({}, state, remote);
+    saveLocal(); render();
+    setSync(token() ? 'on' : 'off', token() ? 'Synk: på (GitHub)' : 'Synk: av — läser delat läge, lägg till token för att spara');
+  } catch (e) {
+    setSync('err', 'Kunde inte läsa delat läge: ' + e.message);
+  }
+}
+init();
+setInterval(init, 5 * 60 * 1000);
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') init(); });
 </script>
 </body>
 </html>
