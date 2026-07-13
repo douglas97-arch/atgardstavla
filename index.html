@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Åtgärdstavla 2026-07-13</title>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, "Segoe UI", Roboto, sans-serif; background: #faf9f7; color: #2d2a26; padding: 20px; max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 1.5rem; margin-bottom: 2px; }
+  .gen { color: #96907f; font-size: 0.8rem; margin-bottom: 20px; }
+  h2 { font-size: 1.1rem; margin: 24px 0 10px; }
+  .card { background: #fff; border: 1px solid #e8e4dd; border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; position: relative; }
+  .card h3 { font-size: 0.95rem; margin-bottom: 4px; padding-right: 60px; }
+  .card p { font-size: 0.85rem; color: #57524a; margin-bottom: 6px; }
+  .meta { font-size: 0.78rem; color: #96907f; }
+  .tag { display: inline-block; font-size: 0.72rem; background: #f0ede7; color: #57524a; border-radius: 6px; padding: 2px 8px; margin-right: 6px; }
+  .tag.done { background: #e6f2d9; color: #4a7028; }
+  .links a { font-size: 0.8rem; color: #2f6fb3; text-decoration: none; margin-right: 12px; }
+  .links a:hover { text-decoration: underline; }
+  .hide-btn { position: absolute; top: 12px; right: 12px; font-size: 0.72rem; background: none; border: 1px solid #e8e4dd; border-radius: 6px; padding: 3px 8px; color: #96907f; cursor: pointer; }
+  .hide-btn:hover { background: #f5f2ec; }
+  #show-hidden { font-size: 0.8rem; background: #fff; border: 1px solid #e8e4dd; border-radius: 8px; padding: 6px 12px; cursor: pointer; color: #57524a; margin-bottom: 8px; }
+  .empty { color: #96907f; font-style: italic; font-size: 0.85rem; }
+</style>
+</head>
+<body>
+<h1>Åtgärdstavla</h1>
+<p class="gen">Genererad 2026-07-13 07:10 · källor: Pocket, Gmail-utkast, Google Kalender, Google Drive</p>
+<button id="show-hidden" onclick="toggleHidden()">Visa gömda</button>
+
+<h2>Mötesförberedelser (7 dagar)</h2>
+<div class="card" data-key="meeting-fs-16-7">
+  <button class="hide-btn" onclick="hideCard(this)">Göm</button>
+  <h3>Förberedelse inför: FS-möte (MUF)</h3>
+  <p class="meta">Torsdag 16 juli 2026 (heldag)</p>
+  <p>Inget mötesunderlag framtaget ännu. Skicka underlaget till Claude så görs ett beslutsdokument.</p>
+  <div class="links"><a href="https://www.google.com/calendar/event?eid=MmQ0Y3R0Mmw4azM0Yjlnb2UwNXJsMnNsYmcgZG91Z2xhc3Rob3I5N0Bt&ctz=Europe/Stockholm" target="_blank">Öppna i kalendern</a></div>
+</div>
+
+<h2>Åtgärdspunkter</h2>
+
+<div class="card" data-key="ai-github-hemsida">
+  <button class="hide-btn" onclick="hideCard(this)">Göm</button>
+  <h3>Testa att publicera åtgärdshemsidan via GitHub med Claude</h3>
+  <p>Du vill göra åtgärdshemsidan till en riktig hemsida (GitHub Pages) i stället för bara en lokal fil.</p>
+  <p class="meta"><span class="tag">Påminnelse</span>Inspelad 13/7 00:53</p>
+</div>
+
+<div class="card" data-key="ai-julia-skargard">
+  <button class="hide-btn" onclick="hideCard(this)">Göm</button>
+  <h3>Rekommendera Stockholms skärgård och restauranger till Julia</h3>
+  <p>Julia (från Australien) och hennes vänner behöver tips på aktiviteter i Stockholm.</p>
+  <p class="meta"><span class="tag">Påminnelse</span>Inspelad 11/7</p>
+</div>
+
+<div class="card" data-key="ai-axel-kontakt">
+  <button class="hide-btn" onclick="hideCard(this)">Göm</button>
+  <h3>Kontakta/ring Axel Adolfsson om valfilmen</h3>
+  <p>Följ upp valfilmen och de politiska budskapen med Axel. Manus-utkastet ligger klart i Gmail.</p>
+  <p class="meta"><span class="tag">Samtal/uppföljning</span><span class="tag done">Utkast finns ✓</span>Inspelad 9/7 &amp; 11/7</p>
+  <div class="links"><a href="https://mail.google.com/mail/u/0/#drafts/19f4bba18afd5379" target="_blank">Öppna Gmail-utkastet</a></div>
+</div>
+
+<div class="card" data-key="ai-manus-axel">
+  <button class="hide-btn" onclick="hideCard(this)">Göm</button>
+  <h3>Skicka voice over-manuset till Axel Adolfsson</h3>
+  <p>Manuset till MUF:s valfilm 2026 ("Ett rättvist Sverige") är skrivet och ligger som utkast till Axel.Adolfsson@moderaterna.se — granska och skicka.</p>
+  <p class="meta"><span class="tag">Mejl</span><span class="tag done">Hanterad av Claude ✓</span>Inspelad 10/7</p>
+  <div class="links"><a href="https://mail.google.com/mail/u/0/#drafts/19f4bba18afd5379" target="_blank">Öppna Gmail-utkastet</a></div>
+</div>
+
+<div class="card" data-key="ai-redigera-valfilm">
+  <button class="hide-btn" onclick="hideCard(this)">Göm</button>
+  <h3>Redigera valfilmen/videon</h3>
+  <p>Valfilm står i kalendern 15–16/7 — bra tillfälle att klippa filmen.</p>
+  <p class="meta"><span class="tag">Uppgift</span>Inspelad 10/7</p>
+  <div class="links"><a href="https://www.google.com/calendar/event?eid=aWVyZTN2b241aTNzYXVqb3Bua2F1anBmcmMgZG91Z2xhc3Rob3I5N0Bt&ctz=Europe/Stockholm" target="_blank">Valfilm i kalendern (15/7)</a></div>
+</div>
+
+<div class="card" data-key="ai-paris">
+  <button class="hide-btn" onclick="hideCard(this)">Göm</button>
+  <h3>Bjud in Freaky och Jonas till Paris</h3>
+  <p>Skicka meddelande och kolla om de vill följa med till Paris framöver.</p>
+  <p class="meta"><span class="tag">Meddelande</span>Inspelad 11/7</p>
+</div>
+
+<div class="card" data-key="ai-nadin-svensexa">
+  <button class="hide-btn" onclick="hideCard(this)">Göm</button>
+  <h3>Uppdatera Nadins svensexa-grupp</h3>
+  <p>Meddela gruppen: brunchen gick inte att lösa, men kvällsklubbaktiviteten löser sig troligen.</p>
+  <p class="meta"><span class="tag">Meddelande</span>Inspelad 10/7</p>
+</div>
+
+<div class="card" data-key="ai-bergklubb">
+  <button class="hide-btn" onclick="hideCard(this)">Göm</button>
+  <h3>Kolla upp bergklubb för svensexan 25 juli</h3>
+  <p>Hitta lämplig klubb till svensexan den 25 juli (hör ihop med kvällsaktiviteten för Nadins svensexa).</p>
+  <p class="meta"><span class="tag">Ärende</span>Inspelad 9/7</p>
+</div>
+
+<div class="card" data-key="ai-bjurvik">
+  <button class="hide-btn" onclick="hideCard(this)">Göm</button>
+  <h3>Skriv om Bjurvik-besöket</h3>
+  <p>Informera om besöket i Bjurvik — ligger i kalendern fredag–söndag 17–19/7.</p>
+  <p class="meta"><span class="tag">Meddelande</span><span class="tag done">Kalenderhändelse finns ✓</span>Inspelad 10/7</p>
+  <div class="links"><a href="https://www.google.com/calendar/event?eid=a2lvbWVtZWJzbm9jcTQxYm9ldGhvMW00MDggZG91Z2xhc3Rob3I5N0Bt&ctz=Europe/Stockholm" target="_blank">Bjurvik i kalendern (17/7)</a></div>
+</div>
+
+<script>
+const KEY = "atgardstavla-hidden";
+let showHidden = false;
+function getHidden() { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch(e) { return []; } }
+function setHidden(list) { localStorage.setItem(KEY, JSON.stringify(list)); }
+function hideCard(btn) {
+  const card = btn.closest(".card");
+  const list = getHidden();
+  if (!list.includes(card.dataset.key)) { list.push(card.dataset.key); setHidden(list); }
+  apply();
+}
+function toggleHidden() {
+  showHidden = !showHidden;
+  document.getElementById("show-hidden").textContent = showHidden ? "Dölj gömda" : "Visa gömda";
+  apply();
+}
+function apply() {
+  const hidden = getHidden();
+  document.querySelectorAll(".card").forEach(c => {
+    const isHidden = hidden.includes(c.dataset.key);
+    c.style.display = (isHidden && !showHidden) ? "none" : "block";
+    c.style.opacity = (isHidden && showHidden) ? 0.5 : 1;
+    const btn = c.querySelector(".hide-btn");
+    if (isHidden && showHidden) { btn.textContent = "Visa"; btn.onclick = () => { setHidden(getHidden().filter(k => k !== c.dataset.key)); apply(); }; }
+    else { btn.textContent = "Göm"; btn.onclick = () => hideCard(btn); }
+  });
+}
+apply();
+</script>
+</body>
+</html>
